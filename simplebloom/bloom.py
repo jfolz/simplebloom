@@ -133,7 +133,8 @@ class BloomFilter(BloomFilterBase):
         else:
             return cls.__load(fp)
 
-    def loads(self, data):
+    @classmethod
+    def loads(cls, data):
         """
         Load a filter from a buffer::
 
@@ -143,7 +144,7 @@ class BloomFilter(BloomFilterBase):
         Parameters:
             data: filter data
         """
-        self.load(BytesIO(data))
+        cls.__load(BytesIO(data))
 
     def dump(self, fp):
         """
