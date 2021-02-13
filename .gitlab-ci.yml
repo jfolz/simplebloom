@@ -70,7 +70,15 @@ stages:
   - ./build_wheels.sh
 
 
+.source: &source
+  <<: *x86_64-manylinux2014
+  stage: build
+  script:
+  - ./build_source.sh
+
+
 .publish:
+  <<: *x86_64-manylinux2014
   extends: .keep
   stage: publish
   script:
@@ -113,6 +121,11 @@ devel-i686-manylinux2014:
   extends: .devel
 
 
+devel-source:
+  <<: *source
+  extends: .devel
+
+
 release-x86_64-manylinux1:
   <<: *x86_64-manylinux1
   <<: *build
@@ -149,8 +162,12 @@ release-i686-manylinux2014:
   extends: .release
 
 
+release-source:
+  <<: *source
+  extends: .release
+
+
 publish:
-  <<: *x86_64-manylinux2014
   extends: .publish
   needs: [
     "release-x86_64-manylinux1",
@@ -159,4 +176,5 @@ publish:
     "release-i686-manylinux1",
     "release-i686-manylinux2010",
     "release-i686-manylinux2014",
+    "release-source",
   ]

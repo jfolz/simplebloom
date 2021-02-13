@@ -17,9 +17,6 @@ for whl in wheelhouse/*.whl; do
     auditwheel repair "$whl" -w dist
 done
 
-# Source distribution
-/opt/python/cp39-cp39/bin/python setup.py sdist --dist-dir=dist
-
 # Install and test
 cd test
 for PYBIN in /opt/python/*/bin/; do
