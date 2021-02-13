@@ -1,0 +1,162 @@
+stages:
+  - build
+  - publish
+
+
+.artifacts:
+  artifacts:
+    paths:
+    - dist/*.tar.gz
+    - dist/*.whl
+
+
+.always:
+  extends: .artifacts
+  artifacts:
+    expire_in: 1 hour
+
+
+.devel:
+  extends: .artifacts
+  artifacts:
+    expire_in: 1 hour
+  except:
+  - tags
+
+
+.release:
+  extends: .artifacts
+  artifacts:
+    expire_in: 1 hour
+  only:
+  - tags
+
+
+.keep:
+  extends: .artifacts
+  artifacts:
+    expire_in: 1000 years
+  only:
+  - tags
+
+
+.x86_64-manylinux1: &x86_64-manylinux1
+  image: quay.io/pypa/manylinux1_x86_64
+
+
+.x86_64-manylinux2010: &x86_64-manylinux2010
+  image: quay.io/pypa/manylinux2010_x86_64
+
+
+.x86_64-manylinux2014: &x86_64-manylinux2014
+  image: quay.io/pypa/manylinux2014_x86_64
+
+
+.i686-manylinux1: &i686-manylinux1
+  image: quay.io/pypa/manylinux1_i686
+
+
+.i686-manylinux2010: &i686-manylinux2010
+  image: quay.io/pypa/manylinux2010_i686
+
+
+.i686-manylinux2014: &i686-manylinux2014
+  image: quay.io/pypa/manylinux2014_i686
+
+
+.build: &build
+  stage: build
+  script:
+  - ./build_wheels.sh
+
+
+.publish:
+  extends: .keep
+  stage: publish
+  script:
+  - ./publish_wheels.sh
+
+
+devel-x86_64-manylinux1:
+  <<: *x86_64-manylinux1
+  <<: *build
+  extends: .devel
+
+
+devel-x86_64-manylinux2010:
+  <<: *x86_64-manylinux2010
+  <<: *build
+  extends: .devel
+
+
+devel-x86_64-manylinux2014:
+  <<: *x86_64-manylinux2014
+  <<: *build
+  extends: .devel
+
+
+devel-i686-manylinux1:
+  <<: *i686-manylinux1
+  <<: *build
+  extends: .devel
+
+
+devel-i686-manylinux2010:
+  <<: *i686-manylinux2010
+  <<: *build
+  extends: .devel
+
+
+devel-i686-manylinux2014:
+  <<: *i686-manylinux2014
+  <<: *build
+  extends: .devel
+
+
+release-x86_64-manylinux1:
+  <<: *x86_64-manylinux1
+  <<: *build
+  extends: .release
+
+
+release-x86_64-manylinux2010:
+  <<: *x86_64-manylinux2010
+  <<: *build
+  extends: .release
+
+
+release-x86_64-manylinux2014:
+  <<: *x86_64-manylinux2014
+  <<: *build
+  extends: .release
+
+
+release-i686-manylinux1:
+  <<: *i686-manylinux1
+  <<: *build
+  extends: .release
+
+
+release-i686-manylinux2010:
+  <<: *i686-manylinux2010
+  <<: *build
+  extends: .release
+
+
+release-i686-manylinux2014:
+  <<: *i686-manylinux2014
+  <<: *build
+  extends: .release
+
+
+publish:
+  <<: *x86_64-manylinux2014
+  extends: .publish
+  needs: [
+    "release-x86_64-manylinux1",
+    "release-x86_64-manylinux2010",
+    "release-x86_64-manylinux2014",
+    "release-i686-manylinux1",
+    "release-i686-manylinux2010",
+    "release-i686-manylinux2014",
+  ]

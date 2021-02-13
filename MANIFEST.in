@@ -1,0 +1,6 @@
+recursive-include simplebloom *.py *.pyi *.h *.c
+recursive-include test *
+include LICENSE *requirements.txt
+prune build
+prune lib/*/build
+prune test/images/original
