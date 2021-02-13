@@ -6,12 +6,15 @@ from struct import Struct
 from pathlib import Path
 
 try:
-    if 'SIMPLEBLOOM_USEPY' in os.environ:
+    if os.getenv('SIMPLEBLOOM_USEPY'):
         from ._pybloom import BloomFilterBase
+        PURE_PYTHON = True
     else:
         from ._cbloom import BloomFilterBase
+        PURE_PYTHON = False
 except ImportError:
     from ._pybloom import BloomFilterBase
+    PURE_PYTHON = True
 
 
 MAGIC = b'SIMPBLOO'

@@ -21,9 +21,9 @@ done
 /opt/python/cp39-cp39/bin/python setup.py sdist --dist-dir=dist
 
 # Install and test
-#cd test
-#for PYBIN in /opt/python/*/bin/; do
-#    "${PYBIN}/pip" install simplebloom --no-index -f ../dist
-#    "${PYBIN}/python" -m pytest -vv
-#done
-#cd ..
+cd test
+for PYBIN in /opt/python/*/bin/; do
+    "${PYBIN}/pip" install simplebloom --no-index -f ../dist
+    "${PYBIN}/python" -m pytest -vv
+done
+cd ..

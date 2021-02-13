@@ -1,0 +1,53 @@
+import os
+import sys
+import importlib
+
+# make sure module is loaded with Python version
+os.environ['SIMPLEBLOOM_USEPY'] = '1'
+if 'simplebloom.bloom' in sys.modules:
+    importlib.reload(sys.modules['simplebloom.bloom'])
+
+from common import add, check
+
+from simplebloom.bloom import PURE_PYTHON
+assert PURE_PYTHON
+
+
+def test_add_python_10():
+    add(10)
+
+
+def test_add_python_100():
+    add(100)
+
+
+def test_add_python_1000():
+    add(1000)
+
+
+def test_add_python_10000():
+    add(10000)
+
+
+def test_add_python_100000():
+    add(100000)
+
+
+def test_check_python_10():
+    check(10)
+
+
+def test_check_python_100():
+    check(100)
+
+
+def test_check_python_1000():
+    check(1000)
+
+
+def test_check_python_10000():
+    check(10000)
+
+
+def test_check_python_100000():
+    check(100000)
