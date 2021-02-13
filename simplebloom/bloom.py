@@ -86,23 +86,8 @@ class BloomFilter(BloomFilterBase):
     def __len__(self):
         return len(self._buffer) - HEADER.size
 
-    # noinspection PyIncorrectDocstring
     @classmethod
-    def load(cls, fp, __header=HEADER):
-        """
-        Load a filter from a path or file-like::
-
-            bf = BloomFilter.load('bloom.filter')
-
-            with open('bloom.filter', 'rb') as fp:
-                bf = BloomFilter.load(fp)
-
-        Parameters:
-            fp: path or file-like
-        """
-        if isinstance(fp, (str, Path)):
-            fp = open(fp, 'rb')
-
+    def __load(cls, fp, __header=HEADER):
         # read and check header
         header_data = fp.read(__header.size)
         magic, num_bytes, num_elements, false_positive_prob = \
@@ -126,6 +111,27 @@ class BloomFilter(BloomFilterBase):
             false_positive_prob=false_positive_prob,
             _buffer=buffer
         )
+
+    # noinspection PyIncorrectDocstring
+    @classmethod
+    def load(cls, fp, __header=HEADER):
+        """
+        Load a filter from a path or file-like::
+
+            bf = BloomFilter.load('bloom.filter')
+
+            with open('bloom.filter', 'rb') as fp:
+                bf = BloomFilter.load(fp)
+
+        Parameters:
+            fp: path or file-like
+        """
+        if isinstance(fp, (str, Path)):
+            with open(fp, 'rb') as fp:
+                # noinspection PyTypeChecker
+                return cls.__load(fp)
+        else:
+            return cls.__load(fp)
 
     def loads(self, data):
         """
@@ -152,8 +158,10 @@ class BloomFilter(BloomFilterBase):
             fp: path or file-like
         """
         if isinstance(fp, (str, Path)):
-            fp = open(fp, 'wb')
-        fp.write(self._buffer)
+            with open(fp, 'wb') as fp:
+                fp.write(self._buffer)
+        else:
+            fp.write(self._buffer)
 
     def dumps(self):
         """
