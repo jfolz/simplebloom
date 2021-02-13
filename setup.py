@@ -8,6 +8,7 @@ from setuptools import Extension
 
 # don't require Cython for building
 try:
+    # noinspection PyPackageRequirements
     from Cython.Build import cythonize
     HAVE_CYTHON = True
 except ImportError:
@@ -88,14 +89,8 @@ def make_bloom_module():
     )
 
 
-# define extensions
-ext_modules = []
-if PLATFORM != 'windows':
-    ext_modules.append(make_bloom_module())
-
-
 def read(*names):
-    with PACKAGE_DIR.joinpath(*names).open(encoding='utf8') as f:
+    with ROOT_DIR.joinpath(*names).open(encoding='utf8') as f:
         return f.read()
 
 
@@ -110,28 +105,9 @@ def find_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-def find_package_data(packages):
-    package_data = {
-        package: [
-            '*.pyi'
-        ]
-        for package in packages
-    }
-    return package_data
-
-
-packages = find_packages(
-    include=['simplebloom', 'simplebloom.*'],
-)
-
-
-with (ROOT_DIR / 'README.rst').open(encoding='utf-8') as f:
-    description = f.read()
-
-
 setup(
     name='simplebloom',
-    version=find_version('__init__.py'),
+    version=find_version('simplebloom', '__init__.py'),
     author='Joachim Folz',
     author_email='joachim.folz@dfki.de',
     license='MIT',
@@ -145,11 +121,13 @@ setup(
         'License :: OSI Approved :: MIT License',
     ],
     description='A dumb but fast bloom filter.',
-    long_description=description,
+    long_description=read('README.rst'),
     long_description_content_type='text/x-rst; charset=UTF-8',
     keywords='bloom filter bloomfilter',
-    packages=packages,
-    ext_modules=ext_modules,
+    packages=find_packages(
+        include=['simplebloom', 'simplebloom.*'],
+    ),
+    ext_modules=[make_bloom_module()],
     zip_safe=False,
     project_urls={
         'Documentation': 'https://gitlab.com/jfolz/simplebloom/blob/master/README.rst',
