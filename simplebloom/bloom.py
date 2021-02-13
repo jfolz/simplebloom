@@ -144,7 +144,7 @@ class BloomFilter(BloomFilterBase):
         Parameters:
             data: filter data
         """
-        cls.__load(BytesIO(data))
+        return cls.__load(BytesIO(data))
 
     def dump(self, fp):
         """
