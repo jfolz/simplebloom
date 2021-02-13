@@ -83,14 +83,14 @@ Parameters:
     false_positive_prob: desired approximate false positive probability
 
 
-Add element / ``BloomFilter.__iadd__``
+``BloomFilter.__iadd__`` / add element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use the "inplace add" syntax to add elements ``bf += k``,
 where bf is the ``BloomFilter`` and ``k`` a string.
 
 
-Contains element / ``BloomFilter.__contains__``
+``BloomFilter.__contains__`` / contains element
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Use the "contains" syntax to check if an element is (probably)
@@ -112,7 +112,19 @@ Parameters:
     - fp: path or file-like
 
 
-``dump``
+``BloomFilter.loads``
+~~~~~~~~~~~~~~~~~~~~~
+
+Load a filter from a buffer::
+
+    data = bf.dumps()
+    bf = BloomFilter.loads(data)
+
+Parameters:
+    data: filter data
+
+
+``BloomFilter.dump``
 ~~~~~~~~~~~~~~~~~~~~
 
 Dump filter to a path or file-like::
@@ -124,3 +136,13 @@ Dump filter to a path or file-like::
 
 Parameters:
     - fp: path or file-like
+
+
+``BloomFilter.dumps``
+~~~~~~~~~~~~~~~~~~~~~
+
+Returns filter data as buffer::
+
+    data = bf.dumps()
+    bf = BloomFilter.loads(data)
+

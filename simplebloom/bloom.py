@@ -1,10 +1,15 @@
+import os
+from io import BytesIO
 from math import ceil
 from math import log
 from struct import Struct
 from pathlib import Path
 
 try:
-    from ._cbloom import BloomFilterBase
+    if 'SIMPLEBLOOM_USEPY' in os.environ:
+        from ._pybloom import BloomFilterBase
+    else:
+        from ._cbloom import BloomFilterBase
 except ImportError:
     from ._pybloom import BloomFilterBase
 
@@ -81,6 +86,7 @@ class BloomFilter(BloomFilterBase):
     def __len__(self):
         return len(self._buffer) - HEADER.size
 
+    # noinspection PyIncorrectDocstring
     @classmethod
     def load(cls, fp, __header=HEADER):
         """
@@ -121,6 +127,18 @@ class BloomFilter(BloomFilterBase):
             _buffer=buffer
         )
 
+    def loads(self, data):
+        """
+        Load a filter from a buffer::
+
+            data = bf.dumps()
+            bf = BloomFilter.loads(data)
+
+        Parameters:
+            data: filter data
+        """
+        self.load(BytesIO(data))
+
     def dump(self, fp):
         """
         Dump filter to a path or file-like::
@@ -136,3 +154,12 @@ class BloomFilter(BloomFilterBase):
         if isinstance(fp, (str, Path)):
             fp = open(fp, 'wb')
         fp.write(self._buffer)
+
+    def dumps(self):
+        """
+        Returns filter data as buffer::
+
+            data = bf.dumps()
+            bf = BloomFilter.loads(data)
+        """
+        return bytearray(self._buffer)
