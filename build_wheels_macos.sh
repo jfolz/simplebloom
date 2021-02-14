@@ -9,7 +9,7 @@ eval "$(pyenv init -)"
 for PYVER in ${INTERPRETERS}; do
     pyenv install "${PYVER}"
     pyenv global "${PYVER}"
-    pip install -U pip
+    pip install -U pip wheel
     pip wheel . -v -w wheelhouse/ --no-deps
 done
 
