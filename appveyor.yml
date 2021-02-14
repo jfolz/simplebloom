@@ -17,11 +17,6 @@ environment:
 for:
   -
     matrix:
-      exclude:
-        - image: macOS
-          platform: x86
-  -
-    matrix:
       only:
         - image: Visual Studio 2019
           platform: x64
@@ -52,3 +47,8 @@ for:
       - ps: ./build_wheels_macos.sh
     artifacts:
       - path: dist/*.whl
+  -
+    matrix:
+      exclude:
+        - image: macOS
+          platform: x86

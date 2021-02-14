@@ -1,5 +1,5 @@
-# stop on errors
-$ErrorActionPreference = "Stop";
+# do not stop on errors, manually catch errors based on exit code
+$ErrorActionPreference = "Continue";
 
 # the list of Python interpreters
 $interpreters = $env:INTERPRETERS -split ";"
