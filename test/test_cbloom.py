@@ -3,9 +3,9 @@ import sys
 import importlib
 
 # make sure module is loaded with Python version#
-os.unsetenv('SIMPLEBLOOM_USEPY')
-if 'simplebloom' in sys.modules:
-    importlib.reload(sys.modules['simplebloom'])
+os.environ['SIMPLEBLOOM_USEPY'] = ''
+if 'simplebloom.bloom' in sys.modules:
+    importlib.reload(sys.modules['simplebloom.bloom'])
 
 from common import add, check
 
