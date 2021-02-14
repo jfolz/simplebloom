@@ -1,5 +1,6 @@
 stages:
   - build
+  - import
   - publish
 
 
@@ -167,6 +168,15 @@ release-source:
   extends: .release
 
 
+import-appveyor:
+  <<: *x86_64-manylinux2014
+  stage: import
+  extends: .always
+  script:
+    - /opt/python/cp39-cp39/bin/python import_appveyor.py
+    - ./check_artifacts.sh
+
+
 publish:
   extends: .publish
   needs: [
@@ -177,4 +187,5 @@ publish:
     "release-i686-manylinux2010",
     "release-i686-manylinux2014",
     "release-source",
+    "import-appveyor",
   ]
