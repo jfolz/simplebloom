@@ -47,7 +47,7 @@ for:
       only:
         - image: macOS
     environment:
-      INTERPRETERS: "3.5-dev 3.6-dev 3.7-dev 3.8-dev 3.9-dev"
+      INTERPRETERS: "3.6-dev 3.7-dev 3.8-dev 3.9-dev"
     build_script:
       - ps: ./build_wheels_macos.sh
     artifacts:
