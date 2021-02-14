@@ -59,7 +59,7 @@ def make_bloom_module():
         if cython_file.exists():
             cythonize(str(cython_file))
 
-    sources = [PACKAGE_DIR / '_cbloom.c']
+    sources = [Path('simplebloom', '_cbloom.c')]
     for source in sources:
         remove_c_comments(source)
         normalize_windows_paths(source)
