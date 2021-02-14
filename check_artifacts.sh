@@ -9,6 +9,8 @@ PYBIN=/opt/python/cp39-cp39/bin
                 manylinux1_i686 \
                 manylinux2010_x86_64 \
                 manylinux2010_i686 \
+                manylinux2014_x86_64 \
+                manylinux2014_i686 \
                 win_amd64 \
                 win32 \
                 macosx_10_9_x86_64
