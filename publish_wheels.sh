@@ -6,6 +6,5 @@ PYBIN=/opt/python/cp39-cp39/bin
 "${PYBIN}/python" -m twine upload \
     --skip-existing \
     --disable-progress-bar \
-    -u "${TWINE_USERNAME}" \
-    -p "${TWINE_PASSWORD}" \
+    --non-interactive \
     dist/*
