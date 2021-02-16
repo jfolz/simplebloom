@@ -42,18 +42,6 @@ cdef class BloomFilterBase:
     def __dealloc__(self):
         PyBuffer_Release(&self.view)
 
-    def __getbuffer__(self, Py_buffer *buffer, int flags):
-        buffer.buf = self.data
-        buffer.internal = NULL
-        buffer.itemsize = 1
-        buffer.len = self.view.len
-        buffer.obj = self
-        buffer.ndim = 1
-        buffer.readonly = 0
-        buffer.shape = NULL
-        buffer.strides = NULL
-        buffer.suboffsets = NULL
-
     @cython.cdivision(True)
     def __iadd__(self, key):
         f = self.data
