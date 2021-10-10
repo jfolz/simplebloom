@@ -4,25 +4,32 @@ $ErrorActionPreference = "Continue";
 # the list of Python interpreters
 $pyvers = $env:PYVERS -split "|"
 
+Echo "Selected Python versions:"
+Echo $pyvers
+
+Echo "Choco args:"
+Echo $chocoargs
+
 # Compile & test wheels
 foreach ($pyver in $pyvers){
     # install
-    & choco install python3 -y --version=$pyver $chocoargs
+    & choco install python3 $chocoargs -r -y --version=$pyver
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & C:\python\python.exe -m pip install -U pip --no-warn-script-location
+    refreshenv
+    & python -m pip install -U pip --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & C:\python\python.exe -m pip install -q build
+    & python -m pip install -q build
     # build
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & C:\python\python.exe -m build --wheel  --outdir dist
+    & python -m build --wheel  --outdir dist
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
     # test
     cd test
-    & C:\python\python.exe -m pip install --only-binary ":all:" -r ..\test_requirements.txt --no-warn-script-location
+    & python -m pip install --only-binary ":all:" -r ..\test_requirements.txt --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & C:\python\python.exe -m pip install simplebloom --no-index -f ..\dist
+    & python -m pip install simplebloom --no-index -f ..\dist
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & C:\python\python.exe -m pytest -vv
+    & python -m pytest -vv
     if ($LASTEXITCODE -ne 0) { throw "test failed with exit code $LASTEXITCODE" }
     cd ..
 }
