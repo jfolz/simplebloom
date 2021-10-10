@@ -5,15 +5,15 @@ $ErrorActionPreference = "Continue";
 $pyvers = $env:PYVERS -split "|"
 
 Echo "Selected Python versions:"
-Echo $pyvers
+Echo $PYVERS
 
 Echo "Choco args:"
-Echo $chocoargs
+Echo $CHOCOARGS
 
 # Compile & test wheels
 foreach ($pyver in $pyvers){
     # install
-    & choco install python3 $chocoargs -r -y --version=$pyver
+    & choco install python3 -r -y --version=$pyver $CHOCOARGS
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
     refreshenv
     & python -m pip install -U pip --no-warn-script-location
