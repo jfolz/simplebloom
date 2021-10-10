@@ -19,16 +19,11 @@ environment:
 for:
   -
     matrix:
-      exclude:
-        - image: macOS
-          platform: x86
-  -
-    matrix:
       only:
         - image: Visual Studio 2019
           platform: x64
     environment:
-      PYVERS: "C:\\Python36-x64|C:\\Python37-x64|C:\\Python38-x64|C:\\Python39-x64|C:\\Python310-x64"
+      PYVERS: "3.6.8|3.7.9|3.8.10|3.9.7|3.10.0"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
@@ -39,7 +34,7 @@ for:
         - image: Visual Studio 2019
           platform: x86
     environment:
-      PYVERS: "C:\\Python36|C:\\Python37|C:\\Python38|C:\\Python39|C:\\Python310"
+      PYVERS: "3.6.8|3.7.9|3.8.10|3.9.7|3.10.0"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
@@ -54,3 +49,8 @@ for:
       - ps: ./build_wheels_macos.sh
     artifacts:
       - path: dist/*.whl
+  -
+    matrix:
+      exclude:
+        - image: macOS
+          platform: x86
