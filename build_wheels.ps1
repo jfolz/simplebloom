@@ -13,7 +13,7 @@ Echo $Env:CHOCOARGS
 # Compile & test wheels
 foreach ($pyver in $pyvers){
     # install
-    & choco install python3 -r -y --version=$pyver $Env:CHOCOARGS
+    & choco install python3 -r --no-progress -y --version=$pyver $Env:CHOCOARGS
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
     & C:\python\python.exe -m pip install -U pip --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }

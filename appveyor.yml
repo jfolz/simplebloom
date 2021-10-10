@@ -24,7 +24,7 @@ for:
           platform: x64
     environment:
       PYVERS: "3.6.8|3.7.9|3.8.10|3.9.7|3.10.0"
-      CHOCOARGS:  --params "/InstallDir:C:\python"
+      CHOCOARGS: --params "/InstallDir:C:\python"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
@@ -36,7 +36,7 @@ for:
           platform: x86
     environment:
       PYVERS: "3.6.8|3.7.9|3.8.10|3.9.7|3.10.0"
-      CHOCOARGS: --x86 --params "/InstallDir:C:\python"
+      CHOCOARGS: --x86 --params "/InstallDir32:C:\python"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
