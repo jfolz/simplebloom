@@ -23,8 +23,8 @@ for:
         - image: Visual Studio 2019
           platform: x64
     environment:
-      PYVERS: "3.6.8|3.7.9|3.8.10|3.9.7|3.10.0"
-      CHOCOARGS: --params /InstallDir:C:\python
+      PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.0"
+      CHOCOARGS: 
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
@@ -35,8 +35,8 @@ for:
         - image: Visual Studio 2019
           platform: x86
     environment:
-      PYVERS: "3.6.8|3.7.9|3.8.10|3.9.7|3.10.0"
-      CHOCOARGS: --x86 --params /InstallDir:C:\python
+      PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.0"
+      CHOCOARGS: --x86
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:

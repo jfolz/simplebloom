@@ -2,7 +2,7 @@
 $ErrorActionPreference = "Continue";
 
 # the list of Python interpreters
-$pyvers = $Env:PYVERS -split "|"
+$pyvers = $Env:PYVERS -split ";"
 $chocoargs = $Env:CHOCOARGS -split " "
 
 Echo "Selected Python versions:"
@@ -14,7 +14,7 @@ Echo $Env:CHOCOARGS
 # Compile & test wheels
 foreach ($pyver in $pyvers){
     # install
-    & choco install python3 -y -r --force --no-progress --version=$pyver $chocoargs
+    & choco install python3 -y -r --force --no-progress --version=$pyver $chocoargs --params "/InstallDir:C:\python"
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
     & C:\python\python.exe -m pip install -U pip --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
