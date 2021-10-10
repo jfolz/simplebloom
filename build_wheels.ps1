@@ -36,5 +36,5 @@ foreach ($pyver in $pyvers){
     cd ..
     # cleanup env
     & choco uninstall python3 -y -r --no-progress
-    Remove-Item Env:SIMPLEBLOOM_USEPY
+    Remove-Item -Force -Recurse -Path "$pydir"
 }
