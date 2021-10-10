@@ -34,5 +34,7 @@ foreach ($pyver in $pyvers){
     & $pydir\python.exe -m pytest -vv
     if ($LASTEXITCODE -ne 0) { throw "test failed with exit code $LASTEXITCODE" }
     cd ..
+    # cleanup env
     & choco uninstall python3 -y -r --no-progress
+    Remove-Item Env:SIMPLEBLOOM_USEPY
 }
