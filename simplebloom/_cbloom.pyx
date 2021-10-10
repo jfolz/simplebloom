@@ -1,3 +1,7 @@
+# cython: language_level=3
+# cython: embedsignature=False
+# cython: boundscheck=False
+
 # Cython imports
 from libc.stdint cimport *
 from cpython cimport Py_buffer
