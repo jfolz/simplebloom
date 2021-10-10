@@ -19,7 +19,7 @@ cd test
 foreach ($python in $pyvers){
     & $python\python.exe -m pip install --only-binary ":all:" -r ..\test_requirements.txt --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & $python\python.exe -m pip install simplejpeg --no-index -f ..\dist
+    & $python\python.exe -m pip install simplebloom --no-index -f ..\dist
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
     & $python\python.exe -m pytest -vv
     if ($LASTEXITCODE -ne 0) { throw "test failed with exit code $LASTEXITCODE" }

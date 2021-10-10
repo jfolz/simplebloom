@@ -29,7 +29,7 @@ cd test
 for PYVER in ${PYVERS}; do
     pyenv global "${PYVER}"
     pip install --only-binary ":all:" -r ../test_requirements.txt
-    pip install simplejpeg --no-index -f ../dist
+    pip install simplebloom --no-index -f ../dist
     python -m pytest -vv
 done
 cd ..
