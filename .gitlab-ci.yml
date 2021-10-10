@@ -65,6 +65,13 @@ stages:
   image: quay.io/pypa/manylinux2014_i686
 
 
+.aarch64-manylinux_2_24: &aarch64-manylinux_2_24
+  image: quay.io/pypa/manylinux_2_24_aarch64
+  tags:
+    - arm
+
+
+
 .build: &build
   stage: build
   script:
@@ -122,6 +129,12 @@ devel-i686-manylinux2014:
   extends: .devel
 
 
+devel-aarch64-manylinux_2_24:
+  <<: *aarch64-manylinux_2_24
+  <<: *build
+  extends: .devel
+
+
 devel-source:
   <<: *source
   extends: .devel
@@ -163,6 +176,12 @@ release-i686-manylinux2014:
   extends: .release
 
 
+release-aarch64-manylinux_2_24:
+  <<: *aarch64-manylinux_2_24
+  <<: *build
+  extends: .release
+
+
 release-source:
   <<: *source
   extends: .release
@@ -180,12 +199,13 @@ import-appveyor:
 publish:
   extends: .publish
   needs: [
-    "release-x86_64-manylinux1",
-    "release-x86_64-manylinux2010",
-    "release-x86_64-manylinux2014",
+    "release-aarch64-manylinux_2_24",
     "release-i686-manylinux1",
     "release-i686-manylinux2010",
     "release-i686-manylinux2014",
+    "release-x86_64-manylinux1",
+    "release-x86_64-manylinux2010",
+    "release-x86_64-manylinux2014",
     "release-source",
     "import-appveyor",
   ]
