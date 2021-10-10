@@ -78,13 +78,24 @@ variables:
     - arm
 
 
-.windows: &windows
-  variables:
-    PYVERS: 3.6.8|3.7.9|3.8.10|3.9.7|3.10.0
+.windows-amd64: &windows-amd64
   tags:
   - shared-windows
   - windows
   - windows-1809
+  variables:
+    PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.0"
+    CHOCOARGS: ""
+
+
+.windows-x86: &windows-x86
+  tags:
+  - shared-windows
+  - windows
+  - windows-1809
+  variables:
+    PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.0"
+    CHOCOARGS: --x86
 
 
 .build: &build
@@ -160,6 +171,18 @@ devel-manylinux_2_24_x86_64:
   extends: .devel
 
 
+devel-windows-amd64:
+  <<: *windows-amd64
+  <<: *build-windows
+  extends: .devel
+
+
+devel-windows-x86:
+  <<: *windows-x86
+  <<: *build-windows
+  extends: .devel
+
+
 release-source:
   <<: *manylinux_2_24_x86_64
   <<: *source
@@ -208,6 +231,18 @@ release-manylinux_2_24_x86_64:
   extends: .release
 
 
+release-windows-amd64:
+  <<: *windows-amd64
+  <<: *build-windows
+  extends: .release
+
+
+release-windows-x86:
+  <<: *windows-x86
+  <<: *build-windows
+  extends: .release
+
+
 import-appveyor:
   <<: *manylinux_2_24_x86_64
   stage: import
@@ -229,5 +264,7 @@ publish:
     "release-manylinux_2_24_i686",
     "release-manylinux_2_24_x86_64",
     "release-manylinux_2_24_aarch64",
+    "release-windows-amd64",
+    "release-windows-x86",
     "import-appveyor"
   ]
