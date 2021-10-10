@@ -24,11 +24,7 @@ PYBIN=/opt/python/cp39-cp39/bin
                 manylinux_2_24_x86_64 \
                 win32 \
                 win_amd64 \
-    --exclude cp39-manylinux1_i686 \
-              cp39-manylinux1_x86_64
-              cp39-manylinux_2_5_i686 \
-              cp39-manylinux_2_5_x86_64 \
-              cp310-manylinux1_i686 \
+    --exclude cp310-manylinux1_i686 \
               cp310-manylinux1_x86_64
               cp310-manylinux_2_5_i686 \
               cp310-manylinux_2_5_x86_64 \

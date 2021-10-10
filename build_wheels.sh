@@ -1,15 +1,21 @@
 #!/bin/bash
 set -e -x
+shopt -s extglob
 
-# Python 2.7, 3.4, and 3.5 are not supported
-# remove binaries if still present
-rm -rf /opt/python/cp27*
-rm -rf /opt/python/cp34*
-rm -rf /opt/python/cp35*
+echo "Available Python versions:"
+ls -lh /opt/python/
+
+echo "Selected Python versions:"
+echo ${PYVERS}
+
+echo "Matching Python versions:"
+echo /opt/python/@(${PYVERS})*/bin
 
 # Compile wheels
-for PYBIN in /opt/python/*/bin; do
-    "${PYBIN}/pip" wheel . -v -w wheelhouse/ --no-deps
+for PYBIN in /opt/python/@(${PYVERS})*/bin; do
+    "${PYBIN}/pip" install -U pip --no-warn-script-location
+    "${PYBIN}/pip" install -q build
+    "${PYBIN}/python" -m build --wheel --outdir wheelhouse
 done
 
 # Bundle external shared libraries into the wheels
@@ -19,8 +25,8 @@ done
 
 # Install and test
 cd test
-for PYBIN in /opt/python/*/bin/; do
-    "${PYBIN}/pip" install -r ../test_requirements.txt
+for PYBIN in /opt/python/@(${PYVERS})*/bin/; do
+    "${PYBIN}/pip" install --only-binary ":all:" -r ../test_requirements.txt
     "${PYBIN}/pip" install simplebloom --no-index -f ../dist
     "${PYBIN}/python" -m pytest -vv
 done
