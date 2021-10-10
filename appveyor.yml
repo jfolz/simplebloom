@@ -1,12 +1,14 @@
 branches:
   only:
     - master
+    - dev
 
 image:
   - macOS
   - Visual Studio 2019
 
 environment:
+  VCVARSALL: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat'
   MACOSX_DEPLOYMENT_TARGET: "10.9"
   matrix:
     - platform: x86
@@ -17,11 +19,16 @@ environment:
 for:
   -
     matrix:
+      exclude:
+        - image: macOS
+          platform: x86
+  -
+    matrix:
       only:
         - image: Visual Studio 2019
           platform: x64
     environment:
-      INTERPRETERS: "C:\\Python36-x64;C:\\Python37-x64;C:\\Python38-x64;C:\\Python39-x64"
+      PYVERS: "C:\\Python36-x64;C:\\Python37-x64;C:\\Python38-x64;C:\\Python39-x64;C:\\Python310-x64"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
@@ -32,7 +39,7 @@ for:
         - image: Visual Studio 2019
           platform: x86
     environment:
-      INTERPRETERS: "C:\\Python36;C:\\Python37;C:\\Python38;C:\\Python39"
+      PYVERS: "C:\\Python36;C:\\Python37;C:\\Python38;C:\\Python39;C:\\Python310"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
@@ -42,13 +49,8 @@ for:
       only:
         - image: macOS
     environment:
-      INTERPRETERS: "3.6-dev 3.7-dev 3.8-dev 3.9-dev"
+      PYVERS: "3.6-dev 3.7-dev 3.8-dev 3.9-dev 3.10-dev"
     build_script:
       - ps: ./build_wheels_macos.sh
     artifacts:
       - path: dist/*.whl
-  -
-    matrix:
-      exclude:
-        - image: macOS
-          platform: x86
