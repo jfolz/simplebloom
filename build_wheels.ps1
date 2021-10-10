@@ -2,26 +2,27 @@
 $ErrorActionPreference = "Continue";
 
 # the list of Python interpreters
-$pyvers = $env:PYVERS -split ";"
+$pyvers = $env:PYVERS -split "|"
 
-# Compile wheels
-foreach ($python in $pyvers){
-    & $python\python.exe -m pip install -U pip --no-warn-script-location
+# Compile & test wheels
+foreach ($pyver in $pyvers){
+    # install
+    & choco install python3 -y --version=$pyver
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & $python\python.exe -m pip install -q build
+    & python -m pip install -U pip --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & $python\python.exe -m build --wheel  --outdir dist
+    & python -m pip install -q build
+    # build
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-}
-
-# Install and test
-cd test
-foreach ($python in $pyvers){
-    & $python\python.exe -m pip install --only-binary ":all:" -r ..\test_requirements.txt --no-warn-script-location
+    & python -m build --wheel  --outdir dist
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & $python\python.exe -m pip install simplebloom --no-index -f ..\dist
+    # test
+    cd test
+    & python -m pip install --only-binary ":all:" -r ..\test_requirements.txt --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
-    & $python\python.exe -m pytest -vv
+    & python -m pip install simplebloom --no-index -f ..\dist
+    if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
+    & python -m pytest -vv
     if ($LASTEXITCODE -ne 0) { throw "test failed with exit code $LASTEXITCODE" }
+    cd ..
 }
-cd ..

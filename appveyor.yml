@@ -28,7 +28,7 @@ for:
         - image: Visual Studio 2019
           platform: x64
     environment:
-      PYVERS: "C:\\Python36-x64;C:\\Python37-x64;C:\\Python38-x64;C:\\Python39-x64;C:\\Python310-x64"
+      PYVERS: "C:\\Python36-x64|C:\\Python37-x64|C:\\Python38-x64|C:\\Python39-x64|C:\\Python310-x64"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
@@ -39,7 +39,7 @@ for:
         - image: Visual Studio 2019
           platform: x86
     environment:
-      PYVERS: "C:\\Python36;C:\\Python37;C:\\Python38;C:\\Python39;C:\\Python310"
+      PYVERS: "C:\\Python36|C:\\Python37|C:\\Python38|C:\\Python39|C:\\Python310"
     build_script:
       - ps: .\build_wheels.ps1
     artifacts:
