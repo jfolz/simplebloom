@@ -10,7 +10,6 @@ Echo $Env:PYVERS
 # Compile & test wheels
 foreach ($python in $pyvers){
     # install
-    if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
     & $python\python.exe -m pip install -U pip --no-warn-script-location
     if ($LASTEXITCODE -ne 0) { throw "build failed with exit code $LASTEXITCODE" }
     & $python\python.exe -m pip install -q build
