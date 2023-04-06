@@ -92,12 +92,6 @@ variables:
   - ./build_wheels.sh
 
 
-.build-windows: &build-windows
-  stage: build
-  script:
-  - ./build_wheels.ps1
-
-
 .source: &source
   stage: build
   script:
@@ -171,18 +165,6 @@ devel-manylinux_2_24_x86_64:
   extends: .devel
 
 
-devel-windows-amd64:
-  <<: *windows-amd64
-  <<: *build-windows
-  extends: .devel
-
-
-devel-windows-x86:
-  <<: *windows-x86
-  <<: *build-windows
-  extends: .devel
-
-
 release-source:
   <<: *manylinux_2_24_x86_64
   <<: *source
@@ -240,18 +222,6 @@ release-manylinux_2_24_i686:
 release-manylinux_2_24_x86_64:
   <<: *manylinux_2_24_x86_64
   <<: *build
-  extends: .release
-
-
-release-windows-amd64:
-  <<: *windows-amd64
-  <<: *build-windows
-  extends: .release
-
-
-release-windows-x86:
-  <<: *windows-x86
-  <<: *build-windows
   extends: .release
 
 
