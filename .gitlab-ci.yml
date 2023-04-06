@@ -4,7 +4,7 @@ stages:
   - publish
 
 variables:
-  PYVERS: cp36|cp37|cp38|cp39|cp310
+  PYVERS: cp36|cp37|cp38|cp39|cp310|cp311
 
 
 .artifacts:
@@ -92,7 +92,7 @@ variables:
   - windows
   - windows-1809
   variables:
-    PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.0"
+    PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.10;3.11.2"
     CHOCOARGS: ""
 
 
@@ -102,7 +102,7 @@ variables:
   - windows
   - windows-1809
   variables:
-    PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.0"
+    PYVERS: "3.6.8;3.7.9;3.8.10;3.9.7;3.10.10;3.11.2"
     CHOCOARGS: --x86
 
 
