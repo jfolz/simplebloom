@@ -12,6 +12,7 @@ from simplebloom.bloom import PURE_PYTHON
 
 ELEMENT_SEED = '1234567890'
 NUM_ELEMENTS = 100000
+PWD = Path(__file__).parent.absolute()
 
 
 def generate_elements(outfile):
@@ -23,25 +24,25 @@ def generate_elements(outfile):
 
 
 def get_elements():
-    with gzip.open('elements.gz', 'rt') as f:
+    with gzip.open(Path(PWD, 'elements.gz'), 'rt') as f:
         return [l.strip() for l in f]
 
 
 def get_filter_data(num_elements):
-    path = Path(f'bloom_{num_elements}.filter')
+    path = Path(PWD, f'bloom_{num_elements}.filter')
     with path.open('rb') as fp:
         return fp.read()
 
 
 def main():
-    path = Path('elements.gz')
+    path = Path(PWD, 'elements.gz')
     if not path.exists():
         generate_elements(path)
     elements = get_elements()
     magnitudes = int(log10(NUM_ELEMENTS))
     for m in range(1, magnitudes+1):
         num_elements = 10 ** m
-        path = Path(f'bloom_{num_elements}.filter')
+        path = Path(PWD, f'bloom_{num_elements}.filter')
         if path.exists():
             continue
         bf = BloomFilter(num_elements)

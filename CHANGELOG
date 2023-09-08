@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.5] - 2023-09-08
+### Added
+- Support CPython 3.12.
+
+
 ## [1.0.4] - 2023-04-06
 ### Added
 - Support CPython 3.11.
@@ -36,8 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial public release.
 
 
-[Unreleased]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.4...main
-[1.0.4]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.2...1.0.4
+[Unreleased]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.5...main
+[1.0.5]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.4...1.0.5
+[1.0.4]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.3...1.0.4
 [1.0.3]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.2...1.0.3
 [1.0.2]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.1...1.0.2
 [1.0.1]: https://gitlab.com/jfolz/simplebloom/-/compare/1.0.0...1.0.1
