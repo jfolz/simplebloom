@@ -55,6 +55,22 @@ def make_bloom_module():
     )
 
 
+def find_package_data(packages, patterns):
+    package_data = {
+        package: patterns
+        for package in packages
+    }
+    return package_data
+
+
+packages = find_packages(
+    include=['simplebloom', 'simplebloom.*'],
+)
+
+
+exclude_package_data = find_package_data(packages, ('*.h', '*.c', '*.pyx'))
+
+
 # define extensions
 ext_modules = [make_bloom_module()]
 
@@ -78,9 +94,8 @@ def find_version(*file_paths):
 setup(
     name='simplebloom',
     version=find_version('simplebloom', '__init__.py'),
-    packages=find_packages(
-        include=['simplebloom', 'simplebloom.*'],
-    ),
+    packages=packages,
+    exclude_package_data=exclude_package_data,
     ext_modules=ext_modules,
     zip_safe=False,
 )
