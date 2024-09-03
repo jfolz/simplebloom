@@ -62,6 +62,8 @@ jobs:
           merge-multiple: true
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@v1.10.0
+      - name: Create Github release
+        uses: ncipollo/release-action@v1.14.0
         with:
           artifacts: dist/*
           draft: false
